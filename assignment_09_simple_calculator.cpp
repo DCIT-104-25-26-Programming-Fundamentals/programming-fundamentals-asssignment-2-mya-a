@@ -73,3 +73,138 @@
 #include <cmath>
 using namespace std;
 
+
+double add(double a, double b);
+double subtract(double a, double b);
+double multiply(double a, double b);
+double divide(double a, double b, bool &success);
+double mod(double a, double b, bool &success);
+double exponent(double base, double exp);
+void printMenu();
+
+int main() {
+    int choice;
+
+    do {
+        printMenu();
+        cin >> choice;
+
+        
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+            cout << "Invalid input. Please enter a number from 1-7.\n\n";
+            continue;
+        }
+
+        if (choice == 7) {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+        if (choice < 1 || choice > 7) {
+            cout << "Invalid choice. Please select a number from 1-7.\n\n";
+            continue;
+        }
+
+        double num1, num2;
+        cout << "Enter first number : ";
+        cin >> num1;
+        cout << "Enter second number: ";
+        cin >> num2;
+
+        cout << fixed << setprecision(2);
+
+        switch (choice) {
+            case 1:
+                cout << "Result: " << num1 << " + " << num2 << " = "
+                     << add(num1, num2) << "\n\n";
+                break;
+            case 2:
+                cout << "Result: " << num1 << " - " << num2 << " = "
+                     << subtract(num1, num2) << "\n\n";
+                break;
+            case 3:
+                cout << "Result: " << num1 << " * " << num2 << " = "
+                     << multiply(num1, num2) << "\n\n";
+                break;
+            case 4: {
+                bool ok = true;
+                double result = divide(num1, num2, ok);
+                if (ok)
+                    cout << "Result: " << num1 << " / " << num2 << " = "
+                         << result << "\n\n";
+                else
+                    cout << "Error: Cannot divide by zero.\n\n";
+                break;
+            }
+            case 5: {
+                bool ok = true;
+                double result = mod(num1, num2, ok);
+                if (ok)
+                    cout << "Result: " << num1 << " % " << num2 << " = "
+                         << result << "\n\n";
+                else
+                    cout << "Error: Cannot perform modulus by zero.\n\n";
+                break;
+            }
+            case 6:
+                cout << "Result: " << num1 << " ^ " << num2 << " = "
+                     << exponent(num1, num2) << "\n\n";
+                break;
+        }
+
+    } while (true);
+
+    return 0;
+}
+
+
+
+void printMenu() {
+    cout << "============================\n";
+    cout << "     SIMPLE CALCULATOR\n";
+    cout << "============================\n";
+    cout << "1. Addition\n";
+    cout << "2. Subtraction\n";
+    cout << "3. Multiplication\n";
+    cout << "4. Division\n";
+    cout << "5. Modulus\n";
+    cout << "6. Exponentiation\n";
+    cout << "7. Quit\n";
+    cout << "Select an operation (1-7): ";
+}
+
+double add(double a, double b) {
+    return a + b;
+}
+
+double subtract(double a, double b) {
+    return a - b;
+}
+
+double multiply(double a, double b) {
+    return a * b;
+}
+
+double divide(double a, double b, bool &success) {
+    if (b == 0) {
+        success = false;
+        return 0;
+    }
+    success = true;
+    return a / b;
+}
+
+double mod(double a, double b, bool &success) {
+    if (b == 0) {
+        success = false;
+        return 0;
+    }
+    success = true;
+    return fmod(a, b); 
+}
+
+double exponent(double base, double exp) {
+    return pow(base, exp);
+}

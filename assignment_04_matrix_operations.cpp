@@ -65,3 +65,135 @@
 #include <string>
 using namespace std;
 
+const int MAX_SIZE = 10;
+
+void readMatrix(int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols, string name = "matrix") {
+    cout << "Enter elements for " << name << " (" << rows << "x" << cols << "):" << endl;
+    for (int i = 0; i < rows; i++) {
+        cout << "Enter row " << (i + 1) << " values: ";
+        for (int j = 0; j < cols; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+}
+
+void printMatrix(const int matrix[MAX_SIZE][MAX_SIZE], int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << setw(5) << matrix[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void handleTranspose() {
+    int A[MAX_SIZE][MAX_SIZE];
+    int result[MAX_SIZE][MAX_SIZE];
+    int rows, cols;
+
+    cout << "\n--- TRANSPOSE MATRIX ---" << endl;
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    readMatrix(A, rows, cols, "Matrix");
+
+    cout << "\nOriginal Matrix:" << endl;
+    printMatrix(A, rows, cols);
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j][i] = A[i][j];
+        }
+    }
+
+    cout << "\nTransposed Matrix:" << endl;
+    printMatrix(result, cols, rows);
+}
+
+void handleAddition() {
+    int A[MAX_SIZE][MAX_SIZE];
+    int B[MAX_SIZE][MAX_SIZE];
+    int result[MAX_SIZE][MAX_SIZE];
+    int rows, cols;
+
+    cout << "\n--- ADD MATRICES ---" << endl;
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    readMatrix(A, rows, cols, "Matrix A");
+    readMatrix(B, rows, cols, "Matrix B");
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i][j] = A[i][j] + B[i][j];
+        }
+    }
+
+    cout << "\nSum of Matrices:" << endl;
+    printMatrix(result, rows, cols);
+}
+
+void handleMultiplication() {
+    int A[MAX_SIZE][MAX_SIZE];
+    int B[MAX_SIZE][MAX_SIZE];
+    int result[MAX_SIZE][MAX_SIZE];
+    int rowsA, colsA, rowsB, colsB;
+
+    cout << "\n--- MULTIPLY MATRICES ---" << endl;
+    cout << "Enter number of rows for Matrix A: ";
+    cin >> rowsA;
+    cout << "Enter number of columns for Matrix A: ";
+    cin >> colsA;
+
+    cout << "Enter number of rows for Matrix B: ";
+    cin >> rowsB;
+    cout << "Enter number of columns for Matrix B: ";
+    cin >> colsB;
+
+    if (colsA != rowsB) {
+        cout << "Error: Columns of Matrix A must match Rows of Matrix B!" << endl;
+        return;
+    }
+
+    readMatrix(A, rowsA, colsA, "Matrix A");
+    readMatrix(B, rowsB, colsB, "Matrix B");
+
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsB; j++) {
+            result[i][j] = 0;
+            for (int k = 0; k < colsA; k++) {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    cout << "\nProduct of A x B:" << endl;
+    printMatrix(result, rowsA, colsB);
+}
+
+int main() {
+    int choice;
+
+    cout << "Select Operation:" << endl;
+    cout << "1. Transpose a Matrix" << endl;
+    cout << "2. Add Two Matrices" << endl;
+    cout << "3. Multiply Two Matrices" << endl;
+    cout << "Enter your choice (1-3): ";
+    cin >> choice;
+
+    if (choice == 1) {
+        handleTranspose();
+    } else if (choice == 2) {
+        handleAddition();
+    } else if (choice == 3) {
+        handleMultiplication();
+    } else {
+        cout << "Invalid choice!" << endl;
+    }
+
+    return 0;
+}
